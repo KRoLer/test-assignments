@@ -1,0 +1,4 @@
+#!/bin/bash
+# Sample of using: sh ./sum ./simple.txt
+
+java -cp . com.nikitin.Sum $1
