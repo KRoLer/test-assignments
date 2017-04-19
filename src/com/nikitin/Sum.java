@@ -6,12 +6,14 @@ import java.io.IOException;
 import java.math.BigInteger;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+import java.text.SimpleDateFormat;
 
 /**
  * @author KRoLer
  */
 public class Sum {
     public static void main(String[] args) {
+        long startTime = System.currentTimeMillis();
 
         if (args != null && args.length > 0) {
             String path = args[0];
@@ -22,6 +24,11 @@ public class Sum {
                 System.err.println("Resulted sum is out of range for the 64 bit long type");
             }
         }
+
+        long endTime = System.currentTimeMillis();
+
+        System.out.println(
+                "Time elapsed (Single thread): " + new SimpleDateFormat("mm:ss:SSS").format(endTime - startTime));
     }
 
     public static BigInteger sumIntegersFromFile(String path) {

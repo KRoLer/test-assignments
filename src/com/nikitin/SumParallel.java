@@ -17,7 +17,6 @@ public class SumParallel {
     public static class Producer implements Callable {
 
         private byte[] bytes;
-        private BigInteger result = BigInteger.ZERO;
 
         public Producer(byte[] bytes) {
             this.bytes = bytes;
@@ -25,6 +24,7 @@ public class SumParallel {
 
         @Override
         public BigInteger call() throws Exception {
+            BigInteger result = BigInteger.ZERO;
             ByteBuffer bb = ByteBuffer.wrap(bytes).asReadOnlyBuffer();
             bb.order(ByteOrder.LITTLE_ENDIAN);
             while (bb.hasRemaining()) {
@@ -49,13 +49,14 @@ public class SumParallel {
 
         long endTime = System.currentTimeMillis();
 
-        System.out.println("Time elapsed: " + new SimpleDateFormat("mm:ss:SSS").format(endTime-startTime));
+        System.out.println(
+                "Time elapsed (Multi thread): " + new SimpleDateFormat("mm:ss:SSS").format(endTime - startTime));
     }
 
 
     public static BigInteger sumIntegersFromFile(String path) {
         BigInteger sum = BigInteger.ZERO;
-        ExecutorService pool = Executors.newFixedThreadPool(5);
+        ExecutorService pool = Executors.newFixedThreadPool(10);
         Set<Future<BigInteger>> set = new HashSet<>();
 
         try (BufferedInputStream in = new BufferedInputStream(new FileInputStream(path))) {
